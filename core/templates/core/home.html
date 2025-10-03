@@ -3,93 +3,42 @@
 
 {% block content %}
 <style>
-  /* --- NEW STYLES FOR THE SEARCH FORM --- */
-  .hero-search-form {
-    margin-top: 2.5rem;
-    background: rgba(26, 26, 26, 0.7);
-    border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    backdrop-filter: blur(10px);
-  }
-  .hero-search-form input {
-    background: #0a0a0a;
-    border: 1px solid #2a2a2a;
-    color: white;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-  }
-  .hero-search-form input::placeholder {
-    color: #808080;
-  }
-  .hero-search-form button {
-    background: #ff4444;
-    color: white;
-    border: none;
-    padding: 0.75rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .hero-search-form button:hover {
-    background: #ff6666;
+  /* --- STYLES FOR THE VIDEO BACKGROUND --- */
+  .background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 0;
   }
   /* --- END OF NEW STYLES --- */
 
+  /* --- MODIFIED HERO SECTION STYLE --- */
   .hero-section {
-    height: 90vh; /* Increased height for the form */
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('{% static 'images/hero_background.jpg' %}');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    height: 90vh;
+    /* The background image is now handled by the video tag */
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
   }
-  .hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at center, transparent 0%, rgba(10, 10, 10, 0.8) 100%);
-  }
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    animation: fadeInUp 1s ease;
-    width: 100%;
-    padding: 1rem;
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero-content h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    background: linear-gradient(to right, #ffffff, #ff4444);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero-content p {
-    font-size: 1.5rem;
-    color: #b0b0b0;
-    margin-bottom: 2rem;
-  }
+
+  .hero-search-form { margin-top: 2.5rem; background: rgba(26, 26, 26, 0.7); border: 1px solid #2a2a2a; border-radius: 12px; padding: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; max-width: 800px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px); }
+  .hero-search-form input { background: #0a0a0a; border: 1px solid #2a2a2a; color: white; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; }
+  .hero-search-form input::placeholder { color: #808080; }
+  .hero-search-form button { background: #ff4444; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background-color 0.3s ease; }
+  .hero-search-form button:hover { background: #ff6666; }
   
-  /* Rest of your CSS remains the same... */
+  .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); /* Darkened the overlay for video */ z-index: 1; }
+  .hero-content { position: relative; z-index: 2; /* Increased z-index */ text-align: center; animation: fadeInUp 1s ease; width: 100%; padding: 1rem; }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-content h1 { font-size: 4rem; font-weight: 700; margin-bottom: 1.5rem; background: linear-gradient(to right, #ffffff, #ff4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-content p { font-size: 1.5rem; color: #b0b0b0; margin-bottom: 2rem; }
+  
   .featured-section { background: #0a0a0a; padding: 5rem 0; }
   .section-title { text-align: center; margin-bottom: 3rem; }
   .section-title h2 { font-size: 2.5rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
@@ -114,6 +63,10 @@
 </style>
 
 <section class="hero-section">
+  <video autoplay loop muted playsinline class="background-video">
+    <source src="{% static 'videos/driving_video.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
   <div class="hero-content">
     <h1>Find Your Perfect Rental Car</h1>
     <p>Premium car rental service for all your driving needs</p>
@@ -124,45 +77,12 @@
       <input name="return_date" type="date" required onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Return Date">
       <button type="submit">Search Cars</button>
     </form>
-    </div>
+  </div>
 </section>
 
 <section class="featured-section">
-  <div class="container">
-    <div class="section-title">
-      <h2>Featured Vehicles</h2>
-      <p>Explore our selection of premium vehicles</p>
-    </div>
-    
-    <div class="row g-4">
-      {% for car in featured_cars %}
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="car-card">
-            <img src="{{ car.image.url }}" alt="{{ car.brand }} {{ car.model }}">
-            <div class="car-card-body">
-              <h5 class="car-card-title">{{ car.brand }} {{ car.model }}</h5>
-              <p class="car-card-text">{{ car.category }} · {{ car.year }}</p>
-              <p class="car-card-price">${{ car.price_per_day }}<span>/day</span></p>
-              <a href="{% url 'car_detail' car.pk %}" class="view-details-btn">View Details</a>
-            </div>
-          </div>
-        </div>
-      {% empty %}
-        <div class="col-12">
-          <p class="text-center" style="color: #808080;">No featured cars available at the moment.</p>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+  </section>
 
 <section class="cta-section">
-  <div class="container">
-    <div class="cta-content">
-      <h2>Do You Own a Luxury Car?</h2>
-      <p>Monetize your vehicle effortlessly by listing it on CarRental</p>
-      <a href="{% url 'list_car' %}" class="list-car-btn">List Your Car</a>
-    </div>
-  </div>
-</section>
+  </section>
 {% endblock %}
