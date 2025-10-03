@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-m=o58&+8t(#03(-!dh)8&8#o(50y-np=l545*ny90yhyba5pid
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://car-rental-ca0k.onrender.com']
+ALLOWED_HOSTS = ['car-rental-ca0k.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
