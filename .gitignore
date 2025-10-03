@@ -1,0 +1,15 @@
+# Virtual Environment
+.venv/
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Static files collection folder
+staticfiles/
+
+# Media files
+media/

@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  body {
+    background: #0a0a0a;
+  }
+  
+  .bookings-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    padding: 4rem 0 3rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #2a2a2a;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .bookings-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 68, 68, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .bookings-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #ffffff, #ff4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .bookings-container {
+    background: #0a0a0a;
+    min-height: 60vh;
+    padding-bottom: 4rem;
+  }
+  
+  .booking-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: all 0.4s ease;
+  }
+  
+  .booking-card:hover {
+    transform: translateY(-5px);
+    border-color: #ff4444;
+    box-shadow: 0 20px 50px rgba(255, 68, 68, 0.2);
+  }
+  
+  .booking-card-content {
+    padding: 0;
+  }
+  
+  .booking-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+  }
+  
+  .booking-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .booking-card:hover img {
+    transform: scale(1.1);
+  }
+  
+  .booking-details {
+    padding: 2rem;
+  }
+  
+  .booking-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  .booking-status {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-block;
+  }
+  
+  .status-confirmed {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid #28a745;
+  }
+  
+  .status-cancelled {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+  }
+  
+  .status-pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+  }
+  
+  .booking-dates {
+    color: #b0b0b0;
+    margin: 1.5rem 0;
+    font-size: 1rem;
+  }
+  
+  .booking-dates strong {
+    color: #ff4444;
+    font-weight: 600;
+  }
+  
+  .booking-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ff4444;
+    margin-top: 1rem;
+  }
+  
+  .no-bookings {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .no-bookings::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 68, 68, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .no-bookings-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .no-bookings-icon {
+    font-size: 4rem;
+    color: #ff4444;
+    margin-bottom: 1.5rem;
+  }
+  
+  .no-bookings h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  .no-bookings p {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    margin-bottom: 2rem;
+  }
+  
+  .browse-cars-btn {
+    background: #ff4444;
+    color: white;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .browse-cars-btn:hover {
+    background: #ff6666;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 68, 68, 0.4);
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .bookings-header h1 {
+      font-size: 2rem;
+    }
+    
+    .booking-img-wrapper {
+      height: 200px;
+    }
+    
+    .booking-title {
+      font-size: 1.3rem;
+    }
+    
+    .booking-price {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="bookings-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <h1>My Bookings</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bookings-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        {% if bookings %}
+          {% for booking in bookings %}
+            <div class="booking-card">
+              <div class="row g-0">
+                <div class="col-md-5">
+                  <div class="booking-img-wrapper">
+                    <img src="{{ booking.car.image.url }}" alt="{{ booking.car.brand }} {{ booking.car.model }}">
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="booking-details">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                      <h3 class="booking-title">{{ booking.car.brand }} {{ booking.car.model }}</h3>
+                      <span class="booking-status 
+                        {% if booking.status == 'confirmed' %}status-confirmed
+                        {% elif booking.status == 'cancelled' %}status-cancelled
+                        {% else %}status-pending{% endif %}
+                      ">{{ booking.status|title }}</span>
+                    </div>
+                    
+                    <div class="booking-dates">
+                      <div class="mb-2">
+                        <strong>Pickup:</strong> {{ booking.pickup_date }}
+                      </div>
+                      <div>
+                        <strong>Return:</strong> {{ booking.return_date }}
+                      </div>
+                    </div>
+                    
+                    <div class="booking-price">
+                      ${{ booking.total_price }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-bookings">
+            <div class="no-bookings-content">
+              <div class="no-bookings-icon">🚗</div>
+              <h3>No Bookings Yet</h3>
+              <p>Start your journey by browsing our amazing collection of vehicles</p>
+              <a href="{% url 'car_list' %}" class="browse-cars-btn">Browse Cars Now</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .auth-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .auth-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 68, 68, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .auth-container::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 68, 68, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .auth-form {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 20px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.6s ease;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .auth-title {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    color: #b0b0b0;
+    margin-bottom: 2rem;
+  }
+  
+  .auth-title .highlight {
+    color: #ff4444;
+    font-weight: 700;
+  }
+  
+  .error-message {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid #dc3545;
+    color: #ff6b6b;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    color: #b0b0b0;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .form-group input {
+    width: 100%;
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    color: white;
+    padding: 0.875rem 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #ff4444;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1);
+  }
+  
+  .form-group input::placeholder {
+    color: #606060;
+  }
+  
+  .form-text {
+    text-align: center;
+    color: #808080;
+    font-size: 0.9rem;
+    margin: 1.5rem 0;
+  }
+  
+  .form-text a {
+    color: #ff4444;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  .form-text a:hover {
+    color: #ff6666;
+    text-decoration: underline;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  .submit-btn:hover {
+    background: #ff6666;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 68, 68, 0.3);
+  }
+  
+  .divider {
+    height: 1px;
+    background: #2a2a2a;
+    margin: 1.5rem 0;
+  }
+  
+  @media (max-width: 576px) {
+    .auth-form {
+      padding: 2rem 1.5rem;
+    }
+    
+    .auth-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="auth-container">
+  <form method="post" class="auth-form">
+    {% csrf_token %}
+    
+    <h2 class="auth-title">User <span class="highlight">Login</span></h2>
+
+    {% if form.errors %}
+      <div class="error-message">
+        Your username/email and password didn't match. Please try again.
+      </div>
+    {% endif %}
+
+    <div class="form-group">
+      <label for="id_username">Username or Email</label>
+      <input type="text" name="username" id="id_username" placeholder="Enter your username or email" required>
+    </div>
+
+    <div class="form-group">
+      <label for="id_password">Password</label>
+      <input type="password" name="password" id="id_password" placeholder="Enter your password" required>
+    </div>
+
+    <button type="submit" class="submit-btn">Login</button>
+    
+    <div class="divider"></div>
+    
+    <p class="form-text">
+      Don't have an account? 
+      <a href="{% url 'register' %}">Sign up here</a>
+    </p>
+  </form>
+</div>
+{% endblock %}

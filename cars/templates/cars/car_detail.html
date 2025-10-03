@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+  .detail-container {
+    background: #0a0a0a;
+    min-height: 100vh;
+    padding: 3rem 0;
+  }
+  
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #808080;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .back-link:hover {
+    color: #ff4444;
+    transform: translateX(-5px);
+  }
+  
+  .back-icon {
+    width: 16px;
+    height: 16px;
+    transform: rotate(180deg);
+    opacity: 0.7;
+  }
+  
+  .car-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid #2a2a2a;
+    margin-bottom: 2rem;
+  }
+  
+  .car-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .car-subtitle {
+    font-size: 1.2rem;
+    color: #808080;
+    margin-bottom: 2rem;
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid #2a2a2a;
+    margin: 2rem 0;
+  }
+  
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .spec-item {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .spec-item:hover {
+    border-color: #ff4444;
+    transform: translateY(-5px);
+  }
+  
+  .spec-item p {
+    color: #b0b0b0;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .description-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  .description-section p {
+    color: #b0b0b0;
+    line-height: 1.8;
+  }
+  
+  .booking-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 20px;
+    padding: 2rem;
+    position: sticky;
+    top: 100px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+  
+  .price-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  
+  .price-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ff4444;
+  }
+  
+  .price-label {
+    font-size: 1rem;
+    color: #808080;
+    font-weight: 400;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    color: #b0b0b0;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #ff4444;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1);
+  }
+  
+  .book-btn {
+    width: 100%;
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+  }
+  
+  .book-btn:hover {
+    background: #ff6666;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 68, 68, 0.3);
+  }
+  
+  .disclaimer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #808080;
+  }
+  
+  @media (max-width: 992px) {
+    .booking-card {
+      position: relative;
+      top: 0;
+      margin-top: 2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .car-title {
+      font-size: 2rem;
+    }
+    
+    .specs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<div class="detail-container">
+  <div class="container">
+    <a href="{% url 'car_list' %}" class="back-link">
+      <img src="{% static 'images/arrow_icon.png' %}" alt="Back" class="back-icon">
+      Back to all cars
+    </a>
+
+    <div class="row">
+      <div class="col-lg-8">
+        <img src="{{ car.image.url }}" alt="{{ car.brand }} {{ car.model }}" class="car-image">
+        
+        <div>
+          <h1 class="car-title">{{ car.brand }} {{ car.model }}</h1>
+          <p class="car-subtitle">{{ car.category }} · {{ car.year }}</p>
+        </div>
+        
+        <hr class="divider">
+        
+        <div class="specs-grid">
+          <div class="spec-item">
+            <p>🪑 {{ car.seating_capacity }} Seats</p>
+          </div>
+          <div class="spec-item">
+            <p>⛽ {{ car.fuel_type }}</p>
+          </div>
+          <div class="spec-item">
+            <p>⚙️ {{ car.transmission }}</p>
+          </div>
+          <div class="spec-item">
+            <p>📍 {{ car.location }}</p>
+          </div>
+        </div>
+        
+        <div class="description-section">
+          <h2>Description</h2>
+          <p>{{ car.description }}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="booking-card">
+          <form method="POST" action="{% url 'create_booking' car.pk %}">
+            {% csrf_token %}
+            
+            <div class="price-header">
+              <span class="price-amount">${{ car.price_per_day }}</span>
+              <span class="price-label">per day</span>
+            </div>
+            
+            <hr class="divider">
+            
+            <div class="form-group">
+              <label for="pickupDate">Pickup Date</label>
+              <input 
+                name="pickupDate" 
+                type="date" 
+                id="pickupDate" 
+                class="form-control" 
+                required
+              >
+            </div>
+            
+            <div class="form-group">
+              <label for="returnDate">Return Date</label>
+              <input 
+                name="returnDate" 
+                type="date" 
+                id="returnDate" 
+                class="form-control" 
+                required
+              >
+            </div>
+            
+            <button type="submit" class="book-btn">
+              Book Now
+            </button>
+            
+            <p class="disclaimer">
+              No credit card required to reserve
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Set minimum date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('pickupDate').setAttribute('min', today);
+  document.getElementById('returnDate').setAttribute('min', today);
+  
+  // Update return date minimum when pickup date changes
+  document.getElementById('pickupDate').addEventListener('change', function() {
+    document.getElementById('returnDate').setAttribute('min', this.value);
+  });
+</script>
+{% endblock %}
