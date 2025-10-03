@@ -181,7 +181,7 @@
   <p>Browse our selection of premium vehicles for your next adventure</p>
 
   <form method="GET" action="{% url 'car_list' %}" class="search-form">
-    <img src="{% static 'images/search_icon.png' %}" alt="search" class="search-icon">
+    <img src="https://www.citypng.com/public/uploads/preview/white-search-icon-button-png-img-735811696240431a0p3ex0i2v.png" alt="search" class="search-icon">
     <input 
       name="q" 
       type="text" 
@@ -205,7 +205,7 @@
             <div class="car-info">
               <h3 class="car-title">{{ car.brand }} {{ car.model }}</h3>
               <p class="car-meta">{{ car.category }} · {{ car.year }}</p>
-              <p class="car-price">${{ car.price_per_day }}<span>/day</span></p>
+              <p class="car-price">₹{{ car.price_per_day }}<span>/day</span></p>
             </div>
           </a>
         </div>

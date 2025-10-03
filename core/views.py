@@ -1,11 +1,10 @@
 from django.shortcuts import render
-from cars.models import Car # Make sure to import the Car model
+from cars.models import Car
 
 def home_view(request):
     # Fetch 6 available cars to feature on the homepage
     featured_cars = Car.objects.filter(is_available=True)[:6] 
     
-    # Pass the cars to the template in the context dictionary
     context = {
         'featured_cars': featured_cars
     }
@@ -13,3 +12,8 @@ def home_view(request):
 
 def about_view(request):
     return render(request, 'core/about.html')
+
+def list_car_view(request):
+    # For now, this just renders a simple template.
+    # Later, you can add a form here.
+    return render(request, 'core/list_car.html')
